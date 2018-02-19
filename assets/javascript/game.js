@@ -3,17 +3,14 @@ $(document).ready(function () {
     var stopwatch;
     var stopwatch2;
 
-    // picks a question (from a list of 25)
-    var switchboard = Math.floor(Math.random() * 25);
-
-    // Tracks how many questions the user has answered (quiz ends after 10 questions)
+    // Tracks how many questions the user has answered (quiz ends after 5 questions)
     var answered = 0;
     var qa = 1;
 
     // Tracks how many questions the user has answered correctly 
     var correct = 0;
     // Converts "# correct" value into a "% correct" value
-    var calc = correct*10;
+    var calc = 0;
 
     // Tracks which questions the user has already answered (prevents duplicate questions)
     var log = [];
@@ -257,10 +254,13 @@ $(document).ready(function () {
         "'Time Enough to Last'",
     ];
 
+    // picks a question (from the list in the quiz variable)
+    var switchboard = Math.floor(Math.random() * quiz.length);
+
     // grabs random question, ensures no repeats
     function tracker() {
         if ($.inArray(switchboard, log) > -1) {
-            switchboard = Math.floor(Math.random() * 25);
+            switchboard = Math.floor(Math.random() * quiz.length);
             tracker();
         }
         else {
@@ -269,10 +269,10 @@ $(document).ready(function () {
     };
 
     // resets stored questions (repeats are possible over the course of multiple games, but not during the same game)
+    // NOTE: for this to work, quiz.length must always be divisible by 5 (without decimals) 
     function reset() {
         log.length = 0;
-    }
-    ;
+    };
 
     // populates divs with relevant info, appends choice list, remoes 'start' button
     function question() {
@@ -297,6 +297,7 @@ $(document).ready(function () {
     // ten second timer (for questions)
     function timer1() {
         var timer = 10;
+        $("#flavor").html("Time Remaining:");
         stopwatch = setInterval(function () {
             timer--;
             if (timer >= 0) {
@@ -305,8 +306,8 @@ $(document).ready(function () {
             }
             if (timer === 0) {
                 clearInterval(stopwatch);
-                $("#banner").addClass("blue").removeClass("red", "green");
-                $("#banner").html("Time Up!");
+                $("#banner").addClass("blue").removeClass("red").removeClass("green");
+                $("#banner").html("Question #" + qa);
                 span = document.getElementById("timer");
                 span.innerHTML = "5";
                 progress();
@@ -316,9 +317,17 @@ $(document).ready(function () {
     };
 
     // 5 second timer (for answers)
+    function flavorCalc (){
+        if (answered === 10) {
+            $("#flavor").html("Calculating Your Score...");
+        }
+        else {
+            $("#flavor").html("Next Question In...");
+        }
+    };
     function timer2() {
+        flavorCalc();
         var timer2 = 5;
-
         stopwatch2 = setInterval(function () {
             timer2--;
             if (timer2 >= 0) {
@@ -330,15 +339,15 @@ $(document).ready(function () {
                 answered++;
                 qa++;
 
-                if (answered === 10) {
-                    end ();
+                if (answered === 5) {
+                    end();
                 }
                 else {
                     tracker();
                     options();
                     question();
                     timer1();
-                    $("#banner").addClass("blue").removeClass("red", "green");
+                    $("#banner").addClass("blue").removeClass("red").removeClass("green");
                     $("#banner").html("Question #" + qa);
                 }
             }
@@ -347,12 +356,14 @@ $(document).ready(function () {
     };
 
     function end() {
-        $("#banner").addClass("blue").removeClass("red", "green");
+        calc = correct * 20;
+        $("#banner").addClass("blue").removeClass("red").removeClass("green");
         $("#banner").html("Quiz Complete!")
+        $("#flavor").html("");
         $("#timer").html("");
-        $("#question").html("You've completed the quiz! You got <strong>" + calc + "%</strong> of the questions correct!"
-        + "<br /> <br /> Click the button below to play again!" 
-        + "<br /> <br /> <button type='button' id='reset'>Play Again!</button>");
+        $("#choice2").html("You've completed the quiz! You got <strong>" + calc + "%</strong> of the questions correct!"
+            + "<br /> <br /> Click the button below to play again!"
+            + "<br /> <br /> <button type='button' id='reset'>Play Again!</button>");
     }
 
     // populate answer divs, add class to make devs active and visible
@@ -377,8 +388,33 @@ $(document).ready(function () {
         tracker();
         question();
         timer1();
-        $("#banner").addClass("blue").removeClass("red", "green");
+        $("#banner").addClass("blue").removeClass("red").removeClass("green");
         $("#banner").html("Question #" + qa);
+    });
+
+    // resets stored questions 
+    function rewind() {
+        if (log.length === quiz.length) {
+            log.length = 0;
+        };
+    }
+
+    // starts a new game
+    $("#choice2").click(function () {
+        if (answered === 5) {
+            $("#choice2").html(" ");
+            correct = 0;
+            answered = 0;
+            qa = 1;
+            rewind();
+            tracker();
+            options();
+            question();
+            timer1();
+            $("#banner").addClass("blue").removeClass("red").removeClass("green");
+            $("#banner").html("Question #" + qa);
+        }
+
     });
 
     // progresses game when anything with the "option" class is clicked (question is correct if clicked value = key[switchboard])
@@ -388,16 +424,21 @@ $(document).ready(function () {
     $("#a, #b, #c, #d").click(function () {
         progress();
         if ($(this).attr('value') == key[switchboard]) {
+            console.log(log);
             correct++;
-            console.log(correct, calc);
-            $("#banner").addClass("green").removeClass("red", "blue");
+            calc = correct * 10;
+            $("#banner").addClass("green").removeClass("red").removeClass("blue");
             $("#banner").html("Correct!");
+            span = document.getElementById("timer");
+            span.innerHTML = "5";
             clearInterval(stopwatch);
             timer2();
         }
         else {
-            $("#banner").addClass("red").removeClass("green", "blue");
+            $("#banner").addClass("red").removeClass("blue").removeClass("green");
             $("#banner").html("Incorrect!");
+            span = document.getElementById("timer");
+            span.innerHTML = "5";
             clearInterval(stopwatch);
             timer2();
         }

@@ -2,6 +2,8 @@ body {
     background: url(../images/background.jpg);
     width: 100%;
     height: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
 }
 
 div.center {
@@ -59,6 +61,7 @@ h1.red {
     color: #ff0000;
 }
 
+
 span.bolding {
     font-weight: bolder;
     text-align: center;
@@ -68,4 +71,8 @@ span.bolding {
 #timer, #question, #choice {
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+#flavor {
+    font-weight: bolder;
 }
