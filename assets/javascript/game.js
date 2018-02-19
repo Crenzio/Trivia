@@ -1,8 +1,5 @@
 $(document).ready(function () {
 
-    // clock control
-    var fine = 0;
-
     // picks a question (from a list of 25)
     var switchboard = Math.floor(Math.random() * 25);
 
@@ -320,7 +317,6 @@ $(document).ready(function () {
 
     // 5 second timer (for answers)
     function timer2() {
-        fine = 0;
         var timer2 = 5;
         setInterval(function () {
             timer2--;
@@ -379,7 +375,7 @@ $(document).ready(function () {
             correct++;
             $("#banner").addClass("green").removeClass("red", "blue");
             $("#banner").html("Correct!");
-            fine = 1;
+            clearInterval(timer);
             timer2();
         }
         else {
@@ -387,7 +383,7 @@ $(document).ready(function () {
             qa++;
             $("#banner").addClass("red").removeClass("green", "blue");
             $("#banner").html("Incorrect!");
-            fine = 1;
+            clearInterval(timer);
             timer2();
         }
     });
