@@ -6,15 +6,14 @@ $(document).ready(function () {
     // picks a question (from a list of 25)
     var switchboard = Math.floor(Math.random() * 25);
 
-    // Tracks how many questions the user has answered (quiz ends after 5 questions)
+    // Tracks how many questions the user has answered (quiz ends after 10 questions)
     var answered = 0;
     var qa = 1;
 
     // Tracks how many questions the user has answered correctly 
     var correct = 0;
     // Converts "# correct" value into a "% correct" value
-    var calc = correct / 10;
-    var percent = calc * 100;
+    var calc = correct*10;
 
     // Tracks which questions the user has already answered (prevents duplicate questions)
     var log = [];
@@ -298,38 +297,43 @@ $(document).ready(function () {
     // ten second timer (for questions)
     function timer1() {
         var timer = 10;
-            stopwatch = setInterval(function () {
-                timer--;
-                if (timer >= 0) {
-                    span = document.getElementById("timer");
-                    span.innerHTML = timer;
-                }
-                if (timer === 0) {
-                    clearInterval(stopwatch);
-                    $("#banner").addClass("blue").removeClass("red", "green");
-                    $("#banner").html("Time Up!");
-                    span = document.getElementById("timer");
-                    span.innerHTML = "5";
-                    progress();
-                    timer2();
-                }
-            }, 1000);
+        stopwatch = setInterval(function () {
+            timer--;
+            if (timer >= 0) {
+                span = document.getElementById("timer");
+                span.innerHTML = timer;
+            }
+            if (timer === 0) {
+                clearInterval(stopwatch);
+                $("#banner").addClass("blue").removeClass("red", "green");
+                $("#banner").html("Time Up!");
+                span = document.getElementById("timer");
+                span.innerHTML = "5";
+                progress();
+                timer2();
+            }
+        }, 1000);
     };
 
     // 5 second timer (for answers)
     function timer2() {
         var timer2 = 5;
 
-            stopwatch2 = setInterval(function () {
-                timer2--;
-                if (timer2 >= 0) {
-                    span = document.getElementById("timer");
-                    span.innerHTML = timer2;
+        stopwatch2 = setInterval(function () {
+            timer2--;
+            if (timer2 >= 0) {
+                span = document.getElementById("timer");
+                span.innerHTML = timer2;
+            }
+            if (timer2 === 0) {
+                clearInterval(stopwatch2);
+                answered++;
+                qa++;
+
+                if (answered === 10) {
+                    end ();
                 }
-                if (timer2 === 0) {
-                    clearInterval(stopwatch2);
-                    answered++;
-                    qa++;
+                else {
                     tracker();
                     options();
                     question();
@@ -337,9 +341,19 @@ $(document).ready(function () {
                     $("#banner").addClass("blue").removeClass("red", "green");
                     $("#banner").html("Question #" + qa);
                 }
-            }, 1000);
+            }
+        }, 1000);
 
     };
+
+    function end() {
+        $("#banner").addClass("blue").removeClass("red", "green");
+        $("#banner").html("Quiz Complete!")
+        $("#timer").html("");
+        $("#question").html("You've completed the quiz! You got <strong>" + calc + "%</strong> of the questions correct!"
+        + "<br /> <br /> Click the button below to play again!" 
+        + "<br /> <br /> <button type='button' id='reset'>Play Again!</button>");
+    }
 
     // populate answer divs, add class to make devs active and visible
     // initially, I tried created divs from scratch with jquery, but the clicks would only accept the 'choice' div that contained the created divs
@@ -375,6 +389,7 @@ $(document).ready(function () {
         progress();
         if ($(this).attr('value') == key[switchboard]) {
             correct++;
+            console.log(correct, calc);
             $("#banner").addClass("green").removeClass("red", "blue");
             $("#banner").html("Correct!");
             clearInterval(stopwatch);
