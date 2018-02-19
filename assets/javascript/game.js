@@ -1,5 +1,9 @@
 $(document).ready(function () {
 
+    var timer2 = 5;
+    var timer = 10;
+
+
     // picks a question (from a list of 25)
     var switchboard = Math.floor(Math.random() * 25);
 
@@ -294,7 +298,7 @@ $(document).ready(function () {
 
     // ten second timer (for questions)
     function timer1() {
-        var timer = 10;
+        timer = 10;
         setInterval(function () {
             timer--;
             if (timer >= 0) {
@@ -317,7 +321,7 @@ $(document).ready(function () {
 
     // 5 second timer (for answers)
     function timer2() {
-        var timer2 = 5;
+        timer2 = 5;
         setInterval(function () {
             timer2--;
             if (timer2 >= 0) {
