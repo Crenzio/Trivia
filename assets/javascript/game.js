@@ -1,8 +1,7 @@
 $(document).ready(function () {
 
-    var timer2 = 5;
-    var timer = 10;
-
+    var stopwatch = setinterval(timer);
+    var stopwatch2 = setinterval(timer2);;
 
     // picks a question (from a list of 25)
     var switchboard = Math.floor(Math.random() * 25);
@@ -298,47 +297,49 @@ $(document).ready(function () {
 
     // ten second timer (for questions)
     function timer1() {
-        timer = 10;
+        var timer = 10;
         setInterval(function () {
-            timer--;
-            if (timer >= 0) {
-                span = document.getElementById("timer");
-                span.innerHTML = timer;
-            }
-            if (timer === 0) {
-                clearInterval(timer);
-                $("#banner").addClass("blue").removeClass("red", "green");
-                $("#banner").html("Time Up!");
-                answered++;
-                span = document.getElementById("timer");
-                span.innerHTML = "5";
-                progress();
-                timer2();
-            }
-        }, 1000);
-
+            stopwatch = setInterval(function () {
+                timer--;
+                if (timer >= 0) {
+                    span = document.getElementById("timer");
+                    span.innerHTML = timer;
+                }
+                if (timer === 0) {
+                    clearInterval(timer);
+                    $("#banner").addClass("blue").removeClass("red", "green");
+                    $("#banner").html("Time Up!");
+                    answered++;
+                    span = document.getElementById("timer");
+                    span.innerHTML = "5";
+                    progress();
+                    timer2();
+                }
+            }, 1000);
+        });
     };
 
     // 5 second timer (for answers)
     function timer2() {
-        timer2 = 5;
+        var timer2 = 5;
         setInterval(function () {
-            timer2--;
-            if (timer2 >= 0) {
-                span = document.getElementById("timer");
-                span.innerHTML = timer2;
-            }
-            if (timer2 === 0) {
-                qa++;
-                tracker();
-                options();
-                question();
-                timer1();
-                $("#banner").addClass("blue").removeClass("red", "green");
-                $("#banner").html("Question #" + qa);
-            }
-        }, 1000);
-
+            stopwatch2 = setInterval(function () {
+                timer2--;
+                if (timer2 >= 0) {
+                    span = document.getElementById("timer");
+                    span.innerHTML = timer2;
+                }
+                if (timer2 === 0) {
+                    qa++;
+                    tracker();
+                    options();
+                    question();
+                    timer1();
+                    $("#banner").addClass("blue").removeClass("red", "green");
+                    $("#banner").html("Question #" + qa);
+                }
+            }, 1000);
+        });
     };
 
     // populate answer divs, add class to make devs active and visible
@@ -379,7 +380,7 @@ $(document).ready(function () {
             correct++;
             $("#banner").addClass("green").removeClass("red", "blue");
             $("#banner").html("Correct!");
-            clearInterval(timer);
+            clearInterval(stopwatch);
             timer2();
         }
         else {
@@ -387,7 +388,7 @@ $(document).ready(function () {
             qa++;
             $("#banner").addClass("red").removeClass("green", "blue");
             $("#banner").html("Incorrect!");
-            clearInterval(timer);
+            clearInterval(stopwatch);
             timer2();
         }
     });
