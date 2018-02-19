@@ -1,0 +1,71 @@
+body {
+    background: url(../images/background.jpg);
+    width: 100%;
+    height: 100%;
+}
+
+div.center {
+    margin: auto;
+    left: 50%;
+    right: -50%;
+    text-align: center;
+    margin-top: 20px;
+}
+
+div.frame {
+    max-width:500px;
+    min-height:400px;
+    background-color: bisque;
+    margin: auto;
+    left: 50%;
+    right: -50%;
+    border: solid;
+    border-color: tan; 
+    border-width: 5px;
+    padding: 5px;
+}
+
+div.option:hover {
+    background-color: #ffffcc;
+    cursor: crosshair;
+}
+
+div.choice {
+    text-align: left;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 3px;
+}
+
+div.option {
+    text-align: left;
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    border: solid; 
+    padding: 5px;
+}
+
+h1.blue {
+    color: #0000ff;
+}
+
+h1.green {
+    color:darkgreen;
+}
+
+h1.red {
+    color: #ff0000;
+}
+
+span.bolding {
+    font-weight: bolder;
+    text-align: center;
+    margin-right: 5px;
+}
+
+#timer, #question, #choice {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
