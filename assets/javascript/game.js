@@ -1,5 +1,9 @@
 $(document).ready(function () {
 
+    // on.click enable/disable swithc
+    var click = 0;
+
+    // timer variables
     var stopwatch;
     var stopwatch2;
 
@@ -55,7 +59,7 @@ $(document).ready(function () {
         // books        
         "Darcy says that Elizabeth is 'TOLERABLE, but not handsome enough to tempt me.'",
         "Alice discovers that the baby is a pig after taking it outside.",
-        "Dracula did not have the power to animate corpses.",
+        "Dracula did not have the power to raise zombies.",
         "'All Animals are Equal, but Some Animals are More Equal Than Others.'",
         "The book 'Frankenstein' was originally written by Marry Shelley.",
         "The book '2001: A Space Odyssey,' which intorduced the HAL-9000, was written by Arthur C. Clarke.",
@@ -191,7 +195,7 @@ $(document).ready(function () {
         // books
         "Talkative",
         "Pig",
-        "Animating Corpses",
+        "Animating Zombies",
         "...Equality Must be Earned.'",
         "Xenomorph Queen",
         "Xenomorph Queen",
@@ -305,9 +309,10 @@ $(document).ready(function () {
                 span.innerHTML = timer;
             }
             if (timer === 0) {
+                click = 1;
                 clearInterval(stopwatch);
                 $("#banner").addClass("blue").removeClass("red").removeClass("green");
-                $("#banner").html("Question #" + qa);
+                $("#banner").html("Time Up!");
                 span = document.getElementById("timer");
                 span.innerHTML = "5";
                 progress();
@@ -316,17 +321,19 @@ $(document).ready(function () {
         }, 1000);
     };
 
-    // 5 second timer (for answers)
-    function flavorCalc (){
-        if (answered === 10) {
-            $("#flavor").html("Calculating Your Score...");
+    // minor change to the flavor text after the user answers question #5
+    function flavorize() {
+        if (qa === 5) {
+            $("#flavor").html("We'll Have Your Results In...");
         }
         else {
             $("#flavor").html("Next Question In...");
         }
     };
+
+    // 5 second timer (for answers)
     function timer2() {
-        flavorCalc();
+        flavorize ();
         var timer2 = 5;
         stopwatch2 = setInterval(function () {
             timer2--;
@@ -335,6 +342,7 @@ $(document).ready(function () {
                 span.innerHTML = timer2;
             }
             if (timer2 === 0) {
+                click = 0;
                 clearInterval(stopwatch2);
                 answered++;
                 qa++;
@@ -401,18 +409,26 @@ $(document).ready(function () {
 
     // starts a new game
     $("#choice2").click(function () {
-        if (answered === 5) {
-            $("#choice2").html(" ");
-            correct = 0;
-            answered = 0;
-            qa = 1;
-            rewind();
-            tracker();
-            options();
-            question();
-            timer1();
-            $("#banner").addClass("blue").removeClass("red").removeClass("green");
-            $("#banner").html("Question #" + qa);
+
+        if (click === 1) {
+            null;
+        }
+
+        else {
+
+            if (answered === 5) {
+                $("#choice2").html(" ");
+                correct = 0;
+                answered = 0;
+                qa = 1;
+                rewind();
+                tracker();
+                options();
+                question();
+                timer1();
+                $("#banner").addClass("blue").removeClass("red").removeClass("green");
+                $("#banner").html("Question #" + qa);
+            }
         }
 
     });
@@ -422,25 +438,34 @@ $(document).ready(function () {
     // it was all like 'WWWAAAAAHHH! I CAN'T DO THAT BECAUSE I'M A CLASSLESS HARLOT! WWWAAAAAHHH!' 
     // true story...no, I'm serious, that's what the console error actually said. prove otherwise 
     $("#a, #b, #c, #d").click(function () {
-        progress();
-        if ($(this).attr('value') == key[switchboard]) {
-            console.log(log);
-            correct++;
-            calc = correct * 10;
-            $("#banner").addClass("green").removeClass("red").removeClass("blue");
-            $("#banner").html("Correct!");
-            span = document.getElementById("timer");
-            span.innerHTML = "5";
-            clearInterval(stopwatch);
-            timer2();
+
+        if (click === 1) {
+            null;
         }
+
         else {
-            $("#banner").addClass("red").removeClass("blue").removeClass("green");
-            $("#banner").html("Incorrect!");
-            span = document.getElementById("timer");
-            span.innerHTML = "5";
-            clearInterval(stopwatch);
-            timer2();
+
+            progress();
+            if ($(this).attr('value') == key[switchboard]) {
+                click = 1;
+                correct++;
+                calc = correct * 10;
+                $("#banner").addClass("green").removeClass("red").removeClass("blue");
+                $("#banner").html("Correct!");
+                span = document.getElementById("timer");
+                span.innerHTML = "5";
+                clearInterval(stopwatch);
+                timer2();
+            }
+            else {
+                click = 1;
+                $("#banner").addClass("red").removeClass("blue").removeClass("green");
+                $("#banner").html("Incorrect!");
+                span = document.getElementById("timer");
+                span.innerHTML = "5";
+                clearInterval(stopwatch);
+                timer2();
+            }
         }
     });
 
