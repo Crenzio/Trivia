@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
-    var stopwatch = setinterval(timer);
-    var stopwatch2 = setinterval(timer2);;
+    var stopwatch;
+    var stopwatch2;
 
     // picks a question (from a list of 25)
     var switchboard = Math.floor(Math.random() * 25);
@@ -298,7 +298,6 @@ $(document).ready(function () {
     // ten second timer (for questions)
     function timer1() {
         var timer = 10;
-        setInterval(function () {
             stopwatch = setInterval(function () {
                 timer--;
                 if (timer >= 0) {
@@ -316,13 +315,12 @@ $(document).ready(function () {
                     timer2();
                 }
             }, 1000);
-        });
     };
 
     // 5 second timer (for answers)
     function timer2() {
         var timer2 = 5;
-        setInterval(function () {
+
             stopwatch2 = setInterval(function () {
                 timer2--;
                 if (timer2 >= 0) {
@@ -339,7 +337,7 @@ $(document).ready(function () {
                     $("#banner").html("Question #" + qa);
                 }
             }, 1000);
-        });
+
     };
 
     // populate answer divs, add class to make devs active and visible
