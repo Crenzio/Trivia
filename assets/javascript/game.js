@@ -305,10 +305,9 @@ $(document).ready(function () {
                     span.innerHTML = timer;
                 }
                 if (timer === 0) {
-                    clearInterval(timer);
+                    clearInterval(stopwatch);
                     $("#banner").addClass("blue").removeClass("red", "green");
                     $("#banner").html("Time Up!");
-                    answered++;
                     span = document.getElementById("timer");
                     span.innerHTML = "5";
                     progress();
@@ -328,6 +327,8 @@ $(document).ready(function () {
                     span.innerHTML = timer2;
                 }
                 if (timer2 === 0) {
+                    clearInterval(stopwatch2);
+                    answered++;
                     qa++;
                     tracker();
                     options();
@@ -373,8 +374,6 @@ $(document).ready(function () {
     $("#a, #b, #c, #d").click(function () {
         progress();
         if ($(this).attr('value') == key[switchboard]) {
-            answered++;
-            qa++;
             correct++;
             $("#banner").addClass("green").removeClass("red", "blue");
             $("#banner").html("Correct!");
@@ -382,8 +381,6 @@ $(document).ready(function () {
             timer2();
         }
         else {
-            answered++;
-            qa++;
             $("#banner").addClass("red").removeClass("green", "blue");
             $("#banner").html("Incorrect!");
             clearInterval(stopwatch);
