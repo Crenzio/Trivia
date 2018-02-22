@@ -75,14 +75,14 @@ $(document).ready(function () {
         "Strangely, Ramona named her cat after her worst ex-boyfriend: Gideon.",
         "The phrase is a translation of the Latin 'quis custodiet ipsos custodes?', made famous by the ancient 'Satires' of Juvenal.'",
         // film
-        "Mark confidently states that 'Mars will come to fear my botany powers.'",
+        "Mark confidently states 'Mars will come to fear my botany powers.'",
         "After acknowledging the monster's humanity, Kemp invites everyone to his place 'for a little sponge cake und a little wine.'",
         "Nux affectionately refers to his two tumors as 'Larry & Berry.'",
         "Elisa repeatedly signs 'f*** you' to Strickland, one letter at a time. Letter #3 is 'C.'",
         "Tommy and Greg read aloud a section of Herman Melville's 'The Lightning-Rod Man.'",
         // TV
         "Seinfeld lends his voice to Comp-U-Comp, a sentient computer in charge of a shipping company.",
-        "Koh is a creature in the spirit world who steals faces that a showing emotion.",
+        "Koh is a creature in the spirit world who steals faces which show emotion.",
         "Jerry tells Elaine that 'it's like...well, it's like something.'",
         "Charles and Rudy are the hitman who Archer and Ramon run accross.",
         "'It's a Good Life' (arguably the most well-known 'Twilgiht Zone' episode) is not referneced by the 'Scary Door.'"
@@ -278,7 +278,7 @@ $(document).ready(function () {
         log.length = 0;
     };
 
-    // populates divs with relevant info, appends choice list, remoes 'start' button
+    // populates divs with relevant info, appends choice list, removes 'start' button
     function question() {
         $("#question").html(
             quiz[switchboard]
@@ -369,6 +369,7 @@ $(document).ready(function () {
         $("#banner").html("Quiz Complete!")
         $("#flavor").html("");
         $("#timer").html("");
+        $("#question").html("");
         $("#choice2").html("You've completed the quiz! You got <strong>" + calc + "%</strong> of the questions correct!"
             + "<br /> <br /> Click the button below to play again!"
             + "<br /> <br /> <button type='button' id='reset'>Play Again!</button>");
@@ -439,7 +440,7 @@ $(document).ready(function () {
     // true story...no, I'm serious, that's what the console error actually said. prove otherwise 
     $("#a, #b, #c, #d").click(function () {
 
-        if (click === 1) {
+        if (click === 1 || answered === 5) {
             null;
         }
 
