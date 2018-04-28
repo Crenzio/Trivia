@@ -29,6 +29,8 @@ div.frame {
     border-color: orange; 
     border-width: 5px;
     padding: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 div.option:hover {
