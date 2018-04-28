@@ -296,7 +296,6 @@ $(document).ready(function () {
         $("#question").html(answer[switchboard]);
         $("#1, #2, #3, #4, #1a, #2b, #3c, #4d").html("");
         $("#a, #b, #c, #d").removeClass("option");
-        $("#a, #b, #c, #d").removeClass("glow");
     };
 
     // ten second timer (for questions)
@@ -390,7 +389,6 @@ $(document).ready(function () {
         $("#3").html("C: ")
         $("#4").html("D: ")
         $("#a, #b, #c, #d").addClass("option");
-        $("#a, #b, #c, #d").addClass("glow");
     }
 
     // begins game when 'start' button is clicked

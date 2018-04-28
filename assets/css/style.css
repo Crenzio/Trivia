@@ -28,8 +28,7 @@ div.frame {
     margin-right: 10px;
 }
 
-div.glow:hover {
-    background-color: #ffffcc;
+div.option:hover {
     cursor: crosshair;
 }
 
