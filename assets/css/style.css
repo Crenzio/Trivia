@@ -8,26 +8,27 @@ body {
 
 div.center {
     margin: auto;
-    left: 50%;
-    right: -50%;
+    margin: 0 auto;    
     text-align: center;
     margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 div.frame {
     max-width:500px;
+    min-width: 270px;
     min-height:400px;
     background-color: bisque;
-    margin: auto;
-    left: 50%;
-    right: -50%;
+    margin: 0 auto;
     border: solid;
-    border-color: tan; 
+    border-color: orange; 
     border-width: 5px;
     padding: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
-div.option:hover {
+div.glow:hover {
     background-color: #ffffcc;
     cursor: crosshair;
 }
@@ -61,10 +62,18 @@ h1.red {
     color: #ff0000;
 }
 
-
 span.bolding {
     font-weight: bolder;
     text-align: center;
+    margin-right: 5px;
+}
+
+span.spacing {
+    display: table-cell;
+}
+
+span.nudge {
+    padding: 5px;
     margin-right: 5px;
 }
 

@@ -51,7 +51,7 @@ $(document).ready(function () {
         "In the TV series <strong>Avatar: The Last Airbender</strong>, what is the name of the creature that steals faces?",
         "In the TV series <strong>Seinfeld</strong>, Jerry claims that a comedian dating a woman who never laughs is like...",
         "In the TV series <strong>Archer</strong>, what are the names of the two hitmen who attack Archer and Ramon, on behalf of Cuba?",
-        "In the TV series <strong>Futurama</strong>, what <strong>Twilight Zone</strong> episode is <strong>not</strong> referenced in a <strong>Scary Door</strong>	episode?"
+        "In the TV series <strong>Futurama</strong>, what <strong>Twilight Zone</strong> episode is <strong>not</strong> referenced in a <strong>Scary Door</strong> episode?"
     ];
 
     // Stores explanations (listed to match questions; explanation for quiz.1 is answer.1)
@@ -78,8 +78,8 @@ $(document).ready(function () {
         "&quot;Mars will come to fear my <strong>botany powers</strong>.&quot;",
         "After acknowledging the monster's humanity, Kemp invites everyone to his place &quot;for a little <strong>sponge cake</strong> und a little <strong>wine</strong>.&quot;",
         "Nux affectionately refers to his two tumors as <strong>&quot;Larry & Berry.&quot;</strong>",
-        "Elisa repeatedly signs <strong>&quot;F*** you&quot;</strong> to Strickland, one letter at a time. Making letter #3 is <strong>&quot;C.&quot;</strong>",
-        "Tommy and Greg read aloud a section of Herman Melville's <strong>The Lightning-Rod Man</strong>",
+        "Elisa repeatedly signs <strong>&quot;F*** you&quot;</strong> to Strickland, one letter at a time. Making letter #3 <strong>&quot;C.&quot;</strong>",
+        "Tommy and Greg read aloud a section of Herman Melville's <strong>The Lightning-Rod Man</strong>.",
         // TV
         "Jerry Seinfeld lends his voice to <strong>Comp-U-Comp</strong>, a sentient computer in charge of a shipping company.",
         "Never show emotion to <strong>Koh</strong>. If you do, he'll steal your face.",
@@ -296,6 +296,7 @@ $(document).ready(function () {
         $("#question").html(answer[switchboard]);
         $("#1, #2, #3, #4, #1a, #2b, #3c, #4d").html("");
         $("#a, #b, #c, #d").removeClass("option");
+        $("#a, #b, #c, #d").removeClass("glow");
     };
 
     // ten second timer (for questions)
@@ -389,6 +390,7 @@ $(document).ready(function () {
         $("#3").html("C: ")
         $("#4").html("D: ")
         $("#a, #b, #c, #d").addClass("option");
+        $("#a, #b, #c, #d").addClass("glow");
     }
 
     // begins game when 'start' button is clicked
