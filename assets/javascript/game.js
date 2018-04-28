@@ -331,30 +331,6 @@ $(document).ready(function () {
         }
     };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
     // 5 second timer (for answers)
     function timer2() {
         flavorize ();

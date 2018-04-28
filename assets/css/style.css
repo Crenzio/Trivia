@@ -32,11 +32,6 @@ div.option:hover {
     cursor: crosshair;
 }
 
-div.option:not(hover) {
-    background-color: bisque;
-    cursor: default;
-}
-
 div.choice {
     text-align: left;
     margin-left: 10px;
