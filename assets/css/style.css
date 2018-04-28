@@ -6,6 +6,12 @@ body {
     font-size: 18px;
 }
 
+button {
+    border: solid 3px darkorange;
+    background-color: orange;
+    font-weight: bolder;
+}
+
 div.center {
     min-width: 100%;
     padding-left: 10px;

@@ -71,7 +71,7 @@ $(document).ready(function () {
         "<strong>Bright Star</strong> is the title of a poem by John Keats, and the title of a movie about John Keats.",
         "<strong>&quot;Quark&quot;</strong> is a nonsense word in <strong>Finnegan’s Wake</strong>, and the name of an elementary particle in real life.",
         // graphic novels
-        "To master fencing, simply open your head with the <strong>Head Key</strong> and drop a <strong>Fencing Handbook</strong> into your brian.",        
+        "To master fencing, simply open your head with the <strong>Head Key</strong> and drop a <strong>Fencing Handbook</strong> into your brian.",
         "Strangely, Ramona named her cat after her worst ex-boyfriend: <strong>Gideon</strong>.",
         "The phrase is a translation of the Latin &quot;quis custodiet ipsos custodes?&quot; The phrase was made famous by the ancient <strong>Satires of Juvenal.</strong>",
         // film
@@ -312,9 +312,9 @@ $(document).ready(function () {
                 click = 1;
                 clearInterval(stopwatch);
                 $("#banner").addClass("blue").removeClass("red").removeClass("green");
-                $("#banner").html("Time Up!");
+                $("#banner").html("Time's Up!");
                 span = document.getElementById("timer");
-                span.innerHTML = "5";
+                span.innerHTML = "10";
                 progress();
                 timer2();
             }
@@ -333,15 +333,22 @@ $(document).ready(function () {
 
     // 5 second timer (for answers)
     function timer2() {
-        flavorize ();
+        flavorize();
         var timer2 = 10;
         stopwatch2 = setInterval(function () {
             timer2--;
-            if (timer2 >= 0) {
+            if (timer2 > 0) {
+                $("#skip").html("<br /> <button>Next Question!</button>");
+
+                if (qa === 5) { 
+                    $("#skip").html("<br /> <button>Score Me Now!</button>");
+                }
+
                 span = document.getElementById("timer");
                 span.innerHTML = timer2;
             }
             if (timer2 === 0) {
+                $("#skip").html("");
                 click = 0;
                 clearInterval(stopwatch2);
                 answered++;
@@ -371,8 +378,8 @@ $(document).ready(function () {
         $("#timer").html("");
         $("#question").html("");
         $("#choice2").html("You've completed the quiz! You got <strong>" + calc + "%</strong> of the questions correct!"
-            + "<br /> <br /> Click the button below to play again!"
-            + "<br /> <br /> <button type='button' id='reset'>Play Again!</button>");
+            + "<br /> <br /> Click the button below to play again!");
+        $("#next").html("<br /> <button>Play Again!</button>");
     }
 
     // populate answer divs, add class to make devs active and visible
@@ -409,7 +416,7 @@ $(document).ready(function () {
     }
 
     // starts a new game
-    $("#choice2").click(function () {
+    $("#next").click(function () {
 
         if (click === 1) {
             null;
@@ -419,6 +426,7 @@ $(document).ready(function () {
 
             if (answered === 5) {
                 $("#choice2").html(" ");
+                $("#next").html(" ");
                 correct = 0;
                 answered = 0;
                 qa = 1;
@@ -432,6 +440,27 @@ $(document).ready(function () {
             }
         }
 
+    });
+
+    $("#skip").click(function () {
+        $("#skip").html("");
+
+        click = 0;
+        clearInterval(stopwatch2);
+        answered++;
+        qa++;
+
+        if (answered === 5) {
+            end();
+        }
+        else {
+            tracker();
+            options();
+            question();
+            timer1();
+            $("#banner").addClass("blue").removeClass("red").removeClass("green");
+            $("#banner").html("Question #" + qa);
+        }
     });
 
     // progresses game when anything with the "option" class is clicked (question is correct if clicked value = key[switchboard])
