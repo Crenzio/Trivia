@@ -2,8 +2,8 @@ body {
     background: url(../images/background.jpg);
     width: 100%;
     height: 100%;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 16px;
+    font-family: 'PT Sans Caption', sans-serif;
+    font-size: 18px;
 }
 
 div.center {
@@ -30,6 +30,11 @@ div.frame {
 div.option:hover {
     background-color: #ffffcc;
     cursor: crosshair;
+}
+
+div.option:not(hover) {
+    background-color: bisque;
+    cursor: default;
 }
 
 div.choice {
@@ -71,6 +76,8 @@ span.bolding {
 #timer, #question, #choice {
     margin-top: 10px;
     margin-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 #flavor {
