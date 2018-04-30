@@ -30,7 +30,7 @@ $(document).ready(function () {
         "Which of these famous movie monsters was adapted from a book written by a female author?",
         "Which of these famous sci-fi movie villains was adapted from a book written by a male author?",
         // poems
-        "In the poem <strong>The Raven</strong> (by Edgar Allan Poe), the raven perches upon the bust of the god(dess) of...",
+        "In the poem <strong>The Raven</strong> (by Edgar Allan Poe), the Raven perches upon the bust of the god(dess) of...",
         "In the poem <strong>The Jabberwocky</strong> (by Lewis Carroll), the hero is warned to shun what creature?",
         "In the poem <strong>Rime of the Ancient Mariner</strong> (by Samuel Taylor Coleridge), to whom is the mariner telling his story?",
         "In the poem <strong>Kubla Kahn</strong> (by Samuel Taylor Coleridge), Kubla Kahn's Pleasure Dome contains many wonders. Including...",
@@ -64,7 +64,7 @@ $(document).ready(function () {
         "The book <strong>Frankenstein</strong> was originally written by Marry Shelley.",
         "The book <strong>2001: A Space Odyssey</strong>, which introduced <strong>the HAL-9000</strong>, was written by Arthur C. Clarke.",
         // poems
-        "The raven perches upon a bust of Pallas Athena, the Greek/Roman goddess of wisdom, handicraft, and <strong>war</strong>.",
+        "The Raven perches upon a bust of Pallas Athena, the Greek/Roman goddess of wisdom, handicraft, strategy, and <strong>war</strong>.",
         "The hero is warned to &quot;shun the frumious <strong>Bandersnatch</strong>.&quot;",
         "The mariner is telling his story to <strong>a wedding guest</strong>.",
         "&quot;It was a miracle of rare device / a sunny Pleasure Dome with <strong>caves of ice</strong>.&quot;",
@@ -77,7 +77,7 @@ $(document).ready(function () {
         // film
         "&quot;Mars will come to fear my <strong>botany powers</strong>.&quot;",
         "After acknowledging the monster's humanity, Kemp invites everyone to his place &quot;for a little <strong>sponge cake</strong> und a little <strong>wine</strong>.&quot;",
-        "Nux affectionately refers to his two tumors as <strong>&quot;Larry & Berry.&quot;</strong>",
+        "Nux affectionately refers to his two tumors as <strong>&quot;Larry & Barry.&quot;</strong>",
         "Elisa repeatedly signs <strong>&quot;F*** you&quot;</strong> to Strickland, one letter at a time. Making letter #3 <strong>&quot;C.&quot;</strong>",
         "Tommy and Greg read aloud a section of Herman Melville's <strong>The Lightning-Rod Man</strong>.",
         // TV
@@ -87,6 +87,40 @@ $(document).ready(function () {
         "<strong>Charles and Rudy</strong> are the hitmen who Archer and Ramon run across.",
         "<strong>It's a Good Life</strong> (arguably the most well-known <strong>Twilight Zone</strong> episode) is not referenced by the <strong>Scary Door.</strong>"
     ];
+
+        // Stores correct answers (listed in order to match questions; correct answer for quiz.1 is key.1)
+        var pic = [
+            // books
+            "lizzy",
+            "pig",
+            "zombie",
+            "animal",
+            "frankenstein",
+            "hal",
+            // poems
+            "athena",
+            "bandersnatch",
+            "mariner",
+            "ice",
+            "star",
+            "quark",
+            // graphic novels
+            "key",
+            "gideon",
+            "juvenal",
+            // film
+            "botany",
+            "kemp",
+            "nux",
+            "elisa",
+            "lightning",
+            // TV
+            "comp",
+            "koh",
+            "sandy",
+            "cr",
+            "kid",
+        ];
 
     // Stores correct answers (listed in order to match questions; correct answer for quiz.1 is key.1)
     var key = [
@@ -334,21 +368,22 @@ $(document).ready(function () {
     // 5 second timer (for answers)
     function timer2() {
         flavorize();
+        $("#skip").html("<br /> <button>Next Question!</button>");
+        $("#pic").html("<br /><br /> <img src='assets/images/" + pic[switchboard] + ".png'>");
+
+        if (qa === 5) {
+            $("#skip").html("<br /> <button>Score Me Now!</button>");
+        }
         var timer2 = 10;
         stopwatch2 = setInterval(function () {
             timer2--;
             if (timer2 > 0) {
-                $("#skip").html("<br /> <button>Next Question!</button>");
-
-                if (qa === 5) { 
-                    $("#skip").html("<br /> <button>Score Me Now!</button>");
-                }
-
                 span = document.getElementById("timer");
                 span.innerHTML = timer2;
             }
             if (timer2 === 0) {
                 $("#skip").html("");
+                $("#pic").html("");
                 click = 0;
                 clearInterval(stopwatch2);
                 answered++;
@@ -444,6 +479,7 @@ $(document).ready(function () {
 
     $("#skip").click(function () {
         $("#skip").html("");
+        $("#pic").html("");
 
         click = 0;
         clearInterval(stopwatch2);

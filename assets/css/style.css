@@ -22,7 +22,7 @@ div.center {
 div.frame {
     margin: 0 auto;
     max-width:500px;
-    min-width: 270px;
+    min-width: 320px;
     min-height:400px;
     background-color: bisque;
     border: solid;
