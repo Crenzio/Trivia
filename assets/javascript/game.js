@@ -1,24 +1,13 @@
 $(document).ready(function () {
 
-    // on.click enable/disable switch
-    var click = 0;
+    // Ordinarily, I would use a SQL database here
+    // SQL Table: 
+    // Question | Answer / Explanation | Image Keyword | Correct Letter Answer | A Answer | B Answer | C Answer | D Answer |
 
-    // timer variables
-    var stopwatch;
-    var stopwatch2;
+    // However, since this is meant to be hosted on a static HTML page (which makes NODE JS and SQL Tables problematic), I opted for Arrays instead
+    // An Object would have also worked (and, admittedly, been more readable). I opeted for multiple arrays, however, as those allow for easier editing
 
-    // Tracks how many questions the user has answered (quiz ends after 5 questions)
-    var answered = 0;
-    var qa = 1;
-
-    // Tracks how many questions the user has answered correctly 
-    var correct = 0;
-    // Converts "# correct" value into a "% correct" value
-    var calc = 0;
-
-    // Tracks which questions the user has already answered (prevents duplicate questions)
-    var log = [];
-    // upon restarting the game, if log.length = quiz.length then log.length = 0 
+    // Jump to line XX to skip over the arrays and get to the good stuff
 
     // Stores questions
     var quiz = [
@@ -51,20 +40,31 @@ $(document).ready(function () {
         "In the TV series <strong>Avatar: The Last Airbender</strong>, what is the name of the creature that steals faces?",
         "In the TV series <strong>Seinfeld</strong>, Jerry claims that a comedian dating a woman who never laughs is like...",
         "In the TV series <strong>Archer</strong>, what are the names of the two hitmen who attack Archer and Ramon, on behalf of Cuba?",
-        "In the TV series <strong>Futurama</strong>, what <strong>Twilight Zone</strong> episode is <strong>not</strong> referenced in a <strong>Scary Door</strong> episode?"
+        "In the TV series <strong>Futurama</strong>, what <strong>Twilight Zone</strong> episode is <strong>not</strong> referenced in a <strong>Scary Door</strong> episode?",
+        // Film (2.0)
+        // "Bruce Campbell has a cameo in each of Sam Raimi's <strong>Spiderman</strong> movies. What are his roles?",
+        // "Who is the first character in the <strong>Terminator</strong> franchise to say &quot;Come with me if you want ot live&quot;?",
+        // "Many kids are turned into donkeys during Disney's animated classic, <strong>Pinocchio</strong>. Who saves them?",
+        // "What is the name of the car that Wayne (Mike Myers) and Garth (Dana Carvey) drive in the movie <strong>Wayne's World</strong>?",
+        // "At the beginning of <strong>The Matrix</strong>, what convinces Neo (Keanu Reeves) to go clubbing with Choi (Marc Aden Gray)?",
+        // "In the movie <strong>Blazing Saddles</strong>, Bart (Cleavon Little) is threatened by a gun-toting mob upon arriving in Rockridge. He escapes by...",
+        // "During the final lightsaber duel in <strong>Empire Strikes Back</strong>, Luke (Mark Hamill) manages to land one lightsaber strike. He strikes Vader's...",
+        // "Which song is <strong>not</strong> played/sung at the <strong>Enchantment Under the Sea</strong> dance, during the first <strong>Back to the Future</strong> movie?",
+        // "Which <strong>Marvel</strong> movie does <strong>not</strong> have a Stan Lee cameo?",
+        // "In <strong>It's a Wonderful Life</strong>, George is shown a reality where he was never born. In this reality, the town of <strong>Beford Falls</strong> is named...?",
     ];
 
     // Stores explanations (listed to match questions; explanation for quiz.1 is answer.1)
     var answer = [
         // books        
-        "Darcy says that Elizabeth is &quot;<strong>tolerable</strong>, but not handsome enough to tempt me.&quot;",
+        "Darcy says that Elizabeth is &quot;<strong>tolerable</strong>, I suppose. but not handsome enough to tempt me.&quot;",
         "Alice takes the baby outside, only to realize it has become a <strong>pig</strong>.",
         "Dracula did <strong>not</strong> have the power to <strong>raise zombies</strong>.",
         "&quot;All Animals are Equal, <strong>but Some Animals are More Equal Than Others</strong>.&quot;",
         "The book <strong>Frankenstein</strong> was originally written by Marry Shelley.",
         "The book <strong>2001: A Space Odyssey</strong>, which introduced <strong>the HAL-9000</strong>, was written by Arthur C. Clarke.",
         // poems
-        "The Raven perches upon a bust of Pallas Athena, the Greek/Roman goddess of wisdom, handicraft, strategy, and <strong>war</strong>.",
+        "The Raven perches upon a bust of <strong>Pallas Athena</strong>, the Greek/Roman goddess of wisdom, handicraft, strategy, and <strong>war</strong>.",
         "The hero is warned to &quot;shun the frumious <strong>Bandersnatch</strong>.&quot;",
         "The mariner is telling his story to <strong>a wedding guest</strong>.",
         "&quot;It was a miracle of rare device / a sunny Pleasure Dome with <strong>caves of ice</strong>.&quot;",
@@ -85,42 +85,55 @@ $(document).ready(function () {
         "Never show emotion to <strong>Koh</strong>. If you do, he'll steal your face.",
         "&quot;It's like...well, it's like <strong>something</strong>.&quot;",
         "<strong>Charles and Rudy</strong> are the hitmen who Archer and Ramon run across.",
-        "<strong>It's a Good Life</strong> (arguably the most well-known <strong>Twilight Zone</strong> episode) is not referenced by the <strong>Scary Door.</strong>"
+        "<strong>It's a Good Life</strong> (arguably the most well-known <strong>Twilight Zone</strong> episode) is not referenced by the <strong>Scary Door.</strong>",
+        // Film (2.0)
+        // "Bruce Campbell makes cameo appearances as a <strong>ring announcer</strong>, a snooty <strong> theater usher</strong>, and a <strong>French maître d’</strong>.",
+        // "In the 1984 movie <strong>Terminator</strong>, <strong>Kyle Reese</strong> (Michael Biehn) first utters franchise's iconic tagline.",
+        // "<strong>Pinocchio</strong> is one of the darker Disney aniated movies. Partially because <strong>we never see anyone save the transformed boys</strong>.",
+        // "&quot;To the <strong>Mirth Mobile</strong>!&quot;",
+        // "Neo spots a <strong>tattoo of a white rabbit</strong> on Dujour (Ada Nicodemou), one of the women with Choi.",
+        // "Bart <strong>threatens to shoot himself</strong> if the mob trys to shoot him. This inexplicably convinces the mob not to shoot him.",
+        // "Just before losing his hand, Luke earns a grunt of pain from Vader (David Prowse / James Earl Jones) by striking his <strong>neck/shoulder</strong>.",
+        // "<strong>Power of Love</strong> plays duirng the first act of <strong>Back to the Future</strong>, but does not play during the <strong>Enchantment Under the Sea</strong> dance.",
+        // "Stan Lee does <strong>not</strong> make an appearance during <strong>Days of Future Past</strong>.",
+        // "With George retroactively out of the way, Mr. Potter reigns supreme. He has renamed the town <strong>Pottersville</strong>."
     ];
 
-        // Stores correct answers (listed in order to match questions; correct answer for quiz.1 is key.1)
-        var pic = [
-            // books
-            "lizzy",
-            "pig",
-            "zombie",
-            "animal",
-            "frankenstein",
-            "hal",
-            // poems
-            "athena",
-            "bandersnatch",
-            "mariner",
-            "ice",
-            "star",
-            "quark",
-            // graphic novels
-            "key",
-            "gideon",
-            "juvenal",
-            // film
-            "botany",
-            "kemp",
-            "nux",
-            "elisa",
-            "lightning",
-            // TV
-            "comp",
-            "koh",
-            "sandy",
-            "cr",
-            "kid",
-        ];
+    // Stores correct answers (listed in order to match questions; correct answer for quiz.1 is key.1)
+    var pic = [
+        // books
+        "lizzy",
+        "pig",
+        "zombie",
+        "animal",
+        "frankenstein",
+        "hal",
+        // poems
+        "athena",
+        "bandersnatch",
+        "mariner",
+        "ice",
+        "star",
+        "quark",
+        // graphic novels
+        "key",
+        "gideon",
+        "juvenal",
+        // film
+        "botany",
+        "kemp",
+        "nux",
+        "elisa",
+        "lightning",
+        // TV
+        "comp",
+        "koh",
+        "sandy",
+        "cr",
+        "kid",
+        // film 2.0
+        // "",
+    ];
 
     // Stores correct answers (listed in order to match questions; correct answer for quiz.1 is key.1)
     var key = [
@@ -154,6 +167,17 @@ $(document).ready(function () {
         "a",
         "a",
         "b",
+        // film 2.0
+        // "b",
+        // "c",
+        // "b",
+        // "a",
+        // "a",
+        // "b",
+        // "c",
+        // "a",
+        // "d",
+        // "d",
     ];
 
     // A category choices; A for quiz.1 is A.1)
@@ -188,6 +212,17 @@ $(document).ready(function () {
         "Something",
         "Charles & Rudy",
         "<strong>Nightmare at 20,000 Feet</strong>",
+        // film 2.0
+        // "A Cop, a Fireman, and a Newspaper Editor",
+        // "The T-800",
+        // "Jiminy",
+        // "The Mirth Mobile",
+        // "A Tattoo of a White Rabbit",
+        // "Whistling for the Wako Kid",
+        // "Leg",
+        // "<strong>Power of Love</strong>",
+        // "<strong>Iron Man 3</strong>",
+        // "Haddonfield",
     ];
 
     // B category choices; B for quiz.1 is B.1)
@@ -222,6 +257,17 @@ $(document).ready(function () {
         "Newman Dating a Dog",
         "La Madrina & Juliana",
         "<strong>It's a Good Life</strong>",
+        // film 2.0
+        // "A Wrestling Announcer, a Theater Usher, and a French Maître D’",
+        // "John Connor",
+        // "No One",
+        // "The Party Wagon",
+        // "A Flicker of Matrix Code",
+        // "Threatening to Shoot Himself",
+        // "Torso",
+        // "<strong>Earth Angel</strong>",
+        // "<strong>Dr. Strange</strong>",
+        // "Basin City",
     ];
 
     // C category choices; C for quiz.1 is C.1)
@@ -256,6 +302,17 @@ $(document).ready(function () {
         "A Chef Dating an Anorexic",
         "Manfred & Uta",
         "<strong>The Man in the Bottle</strong>",
+        // film 2.0
+        // "A News Interviewee, a Banker, and a Cook",
+        // "Kyle Reese",
+        // "The Fox and the Cat",
+        // "The Rhapsody",
+        // "A Woman Resembling Trinity",
+        // "Threatening to Shoot the Town's Only Bartender",
+        // "Neck/Shoulder",
+        // "<strong>The Wallflower (Dance With Me Henry)</strong>",
+        // "<strong>Spiderman 3</strong>",
+        // "New Bedford",
     ];
 
     // D category choices; D for quiz.1 is D.1)
@@ -290,7 +347,39 @@ $(document).ready(function () {
         "A Dentist Dating an Anti-Dentite",
         "Spelvin & Keiko",
         "<strong>Time Enough to Last</strong>",
+        // film 2.0
+        // "A Hotel Clerk, a Pizza Shop Owner, and a Chef",
+        // "Sarah Connor",
+        // "Geppetto",
+        // "The Roadster to Heaven",
+        // "Choi Offers Him Mescaline",
+        // "Throwing Dynamite",
+        // "Hand",
+        // "<strong>Johnny B. Goode</strong>",
+        // "<strong>X-Men: Days of Future Past</strong>",
+        // "Pottersville",
     ];
+
+    // on.click enable/disable switch
+    var click = 1;
+
+    // timer variables
+    var stopwatch;
+    var stopwatch2;
+
+    // Tracks how many questions the user has answered (quiz ends after 5 questions)
+    var answered = 0;
+    var qa = 1;
+
+    // Tracks how many questions the user has answered correctly 
+    var correct = 0;
+    // Converts "# correct" value into a "% correct" value
+    var calc = 0;
+
+    // Tracks which questions the user has already answered (prevents duplicate questions)
+    var log = [];
+    // upon restarting the game, if log.length = quiz.length then quiz = [] 
+
 
     // picks a question (from the list in the quiz variable)
     var switchboard = Math.floor(Math.random() * quiz.length);
@@ -304,12 +393,6 @@ $(document).ready(function () {
         else {
             log.push(switchboard);
         }
-    };
-
-    // resets stored questions (repeats are possible over the course of multiple games, but not during the same game)
-    // NOTE: for this to work, quiz.length must always be divisible by 5 (without decimals) 
-    function reset() {
-        log = [];
     };
 
     // populates divs with relevant info, appends choice list, removes 'start' button
@@ -435,6 +518,7 @@ $(document).ready(function () {
 
     // begins game when 'start' button is clicked
     $("#start").click(function () {
+        click = 0;
         options();
         tracker();
         question();
@@ -443,10 +527,10 @@ $(document).ready(function () {
         $("#banner").html("Question #" + qa);
     });
 
-    // resets stored questions 
+    // resets stored questions (repeats are possible over the course of multiple games, but not during the same game)
     function rewind() {
         if (log.length === quiz.length) {
-            log.length = 0;
+            log.length = [];
         };
     }
 
